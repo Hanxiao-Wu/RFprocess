@@ -1,7 +1,8 @@
-loc=$3   # N , E, or Z
+loc=$1   # N , E, or Z
 dir=../example/ # where the miniseed data are stored
-f=../example/List #store station information
-for i in `seq $1 1 $2`
+f=../example/List # station information file
+n=`wc -l $f | awk '{print $1}'`   # number of rows in station information file
+for i in `seq 1 1 $n`
 do
 st=`awk 'NR=='$i'{print $1}' $f`
 lat=`awk 'NR=='$i'{print $4}' $f`
