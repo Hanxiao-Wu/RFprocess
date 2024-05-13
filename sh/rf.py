@@ -3,10 +3,10 @@ from seispy import decon
 import sys
 
 ev=sys.argv[1]
-R = read(ev+'/*.R.SAC.Pcut_high')
-Z = read(ev+'/*.Z.SAC.Pcut_high')
+R = read(ev+'/*.R.SAC.Pcut')
+Z = read(ev+'/*.Z.SAC.Pcut')
 
-Gaussian_width = 5 #2.5
+Gaussian_width = 2.5 # 5.
 nbumps = 200
 phase_delay = 5.
 min_error = 0.001
@@ -23,7 +23,7 @@ for st in R:
     rf[i].stats.starttime = rf[i].stats.starttime - phase_delay
     rf[i].stats.sac.user0 = Gaussian_width
     rf[i].stats.sac.user1 = (1-RMS[-1])*100
-    rf[i].write(ev+'/'+rf[i].stats.station+'.Prf_high',format='SAC')
+    rf[i].write(ev+'/'+rf[i].stats.station+'.Prf',format='SAC')
     i = i + 1
 
 print('done:',ev)
