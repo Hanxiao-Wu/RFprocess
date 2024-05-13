@@ -9,7 +9,7 @@ do
 sac<<EOF
 r ${st}.[NE].SAC.Pcut_high
 rotate to gcp
-w ${st}.R.SAC.Pcut_high ${st}.T.SAC.Pcut_high
+w ${st}.R.SAC.Pcut ${st}.T.SAC.Pcut
 quit
 EOF
 done
