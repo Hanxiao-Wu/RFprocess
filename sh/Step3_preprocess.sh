@@ -1,4 +1,5 @@
-loc=1
+loc=$1
+ls SS.*.SAC | awk -F '.' '{print $2}' | sort -u > h # generate a list that stores all the 'station name'
 n=`wc -l h | awk '{print $1}'`
 for i in `seq 1 1 $n`
 do
