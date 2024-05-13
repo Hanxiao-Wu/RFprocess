@@ -1,5 +1,5 @@
 loc=$3   # N , E, or Z
-dir=../example/
+dir=../example/ # where the miniseed data are stored
 f=../example/List #store station information
 for i in `seq $1 1 $2`
 do
