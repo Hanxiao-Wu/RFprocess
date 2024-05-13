@@ -3,7 +3,18 @@ from obspy.core.utcdatetime import UTCDateTime
 from obspy.taup import TauPyModel
 from obspy.geodetics.base import locations2degrees
 import sys
+import os
 
+def mkdir(path):
+    folder = os.path.exists(path)
+    if not folder:
+        os.makedirs(path)
+        print "--- new folder ---"
+    else:
+        print("the folder already exists")
+
+
+in_dir = './'
 eq_time = sys.argv[1]
 model = TauPyModel(model='iasp91')
 t_eq = UTCDateTime(eq_time)
@@ -11,11 +22,14 @@ evla = float(sys.argv[2])
 evlo = float(sys.argv[3])
 evdp = float(sys.argv[4])
 
-st_Z = read('./removed2/SS.*.GPZ.D.'+str(t_eq.year)+'.'+f"{t_eq.julday:03}"+'.*.SAC.removed')
-st_E = read('./removed2/SS.*.GPE.D.'+str(t_eq.year)+'.'+f"{t_eq.julday:03}"+'.*.SAC.removed')
-st_N = read('./removed2/SS.*.GPN.D.'+str(t_eq.year)+'.'+f"{t_eq.julday:03}"+'.*.SAC.removed')
+st_Z = read(in_dir+'SS.*.GPZ.D.'+str(t_eq.year)+'.'+f"{t_eq.julday:03}"+'.*.SAC.removed')
+st_E = read(in_dir+'SS.*.GPE.D.'+str(t_eq.year)+'.'+f"{t_eq.julday:03}"+'.*.SAC.removed')
+st_N = read(in_dir+'SS.*.GPN.D.'+str(t_eq.year)+'.'+f"{t_eq.julday:03}"+'.*.SAC.removed')
 
-out_dir = './EQ/' + eq_time.replace(':','-') + '/'
+out_dir = './' + eq_time.replace(':','-')
+mkdir(out_dir)
+out_dir = out_dir + '/'
+
 # cut event 
 Z = st_Z.copy()
 E = st_E.copy()
@@ -57,8 +71,8 @@ for st in st_Z:
     N[i].stats.sac.kuser0 = 'P'
     N[i].stats.sac.cmpaz = 0.
     N[i].stats.sac.cmpinc = 90.
-    Z[i].write(out_dir+Z[i].stats.station+'.Z.SAC.Pcut_high',format='SAC')
-    N[i].write(out_dir+Z[i].stats.station+'.N.SAC.Pcut_high',format='SAC')
-    E[i].write(out_dir+Z[i].stats.station+'.E.SAC.Pcut_high',format='SAC')
+    Z[i].write(out_dir+Z[i].stats.station+'.Z.SAC.Pcut',format='SAC')
+    N[i].write(out_dir+Z[i].stats.station+'.N.SAC.Pcut',format='SAC')
+    E[i].write(out_dir+Z[i].stats.station+'.E.SAC.Pcut',format='SAC')
     i = i + 1
 print(t_eq,'done')
